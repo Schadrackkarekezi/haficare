@@ -4,4 +4,3 @@ neo4j
 openai
 langchain
 langchain-community
-faiss-cpu
