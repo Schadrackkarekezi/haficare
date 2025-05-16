@@ -1,0 +1,5 @@
+
+NEO4J_URI = "neo4j+s://70c9b926.databases.neo4j.io"
+NEO4J_USER = "neo4j"
+NEO4J_PASSWORD = "k57UmjLJjIW21vGkcMbFAW8jEy4pq-YUpINF8oXqswI"
+OPENAI_API_KEY = "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"
