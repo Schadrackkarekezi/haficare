@@ -1,12 +1,20 @@
-
-
 from openai import OpenAI
-from utils.credentials import OPENAI_API_KEY
+from langchain_openai import ChatOpenAI
 
-client = OpenAI(api_key=OPENAI_API_KEY)
+import os
+
+
+def get_client():
+    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+    return client
+
+def get_llm_model():
+    llm_model = ChatOpenAI(temperature=0)
+    return llm_model
 
 def search_web(query, location="RW", city="Kigali"):
     try:
+        client = get_client()
         response = client.chat.completions.create(
             model="gpt-4o-search-preview",
             web_search_options={
@@ -27,3 +35,5 @@ def search_web(query, location="RW", city="Kigali"):
         return response.choices[0].message
     except Exception as e:
         return {"content": f"Web search failed: {e}"}
+    
+

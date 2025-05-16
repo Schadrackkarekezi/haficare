@@ -1,5 +1,3 @@
-
-
 SCHEMA_PROMPT = """
 You are a Cypher assistant for a Neo4j healthcare graph. Use only this schema:
 

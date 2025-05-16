@@ -1,10 +1,40 @@
-
-
-
 from neo4j import GraphDatabase
+from langchain_neo4j import Neo4jGraph
+import os
 
-def upload_healthcenters_to_neo4j(df, uri, user, password):
-    driver = GraphDatabase.driver(uri, auth=(user, password))
+from data.load_data import load_hc_data, load_doctor_data
+
+
+def get_neo4j_driver():
+    # Get connection data from environment variables
+    # Default to empty string to avoid typing warnings in neo4j connection
+    uri = os.getenv("NEO4J_URI", "")
+    user = os.getenv("NEO4J_USER", "")
+    password = os.getenv("NEO4J_PASSWORD", "")
+    
+    try:
+        driver = GraphDatabase.driver(uri, auth=(user, password))
+    except Exception as e:
+        raise Exception(f"Failed to connect to Neo4j: {e}")
+    return driver
+
+
+def get_neo4j_graph():
+    uri = os.getenv("NEO4J_URI", "")
+    user = os.getenv("NEO4J_USER", "")
+    password = os.getenv("NEO4J_PASSWORD", "")
+    
+    try:
+        graph = Neo4jGraph(url=uri, username=user, password=password)
+    except Exception as e:
+        raise Exception(f"Failed to connect to Neo4j: {e}")
+    return graph
+
+
+def upload_healthcenters_to_neo4j():
+    df = load_hc_data()
+    
+    driver = get_neo4j_driver()
     with driver.session() as session:
         session.run("MATCH (n) DETACH DELETE n")
         for _, row in df.iterrows():
@@ -38,10 +68,13 @@ def upload_healthcenters_to_neo4j(df, uri, user, password):
             )
     driver.close()
 
-def upload_doctors_to_neo4j(df_doctors, uri, user, password):
-    driver = GraphDatabase.driver(uri, auth=(user, password))
+
+def upload_doctors_to_neo4j():
+    df = load_doctor_data()
+    
+    driver = get_neo4j_driver()
     with driver.session() as session:
-        for _, row in df_doctors.iterrows():
+        for _, row in df.iterrows():
             session.run(
                 """
                 MERGE (d:Doctor {name: $name})
