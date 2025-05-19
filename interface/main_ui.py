@@ -1,7 +1,7 @@
 import streamlit as st
 
 from db.neo4j_interface import upload_doctors_to_neo4j, upload_healthcenters_to_neo4j, get_neo4j_graph
-from llm.openai import search_web, get_llm_model
+from llm.openai_model import search_web, get_llm_model
 from llm.graph import get_graphqa_cypher_chain
 from llm.prompts import SCHEMA_PROMPT
 
