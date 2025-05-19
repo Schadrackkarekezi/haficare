@@ -1,46 +1,50 @@
 import streamlit as st
 
-from db.neo4j_interface import upload_doctors_to_neo4j, upload_healthcenters_to_neo4j, get_neo4j_graph
-from llm.openai import search_web, get_llm_model
-from llm.graph import get_graphqa_cypher_chain
-from llm.prompts import SCHEMA_PROMPT
+# Import placeholder functions
+from features.diagnosis import get_diagnosis_from_symptoms
+from features.pharmacy_locator import find_pharmacies_with_medicine
+from features.doctor_search import find_doctors_by_question
+
+from db.neo4j_interface import upload_doctors_to_neo4j, upload_healthcenters_to_neo4j
 
 
 def run_app():
     st.set_page_config(page_title="HafiCare")
-    st.title("HafiCare Diagnostic Assistant")
+    st.title(" HafiCare Diagnostic Assistant")
 
-    # Upload button
-    if st.button("Upload Data to Neo4j"):
-        upload_healthcenters_to_neo4j()
-        upload_doctors_to_neo4j()
-        st.success("Local data uploaded to Neo4j!")
+    # Define tabs
+    tabs = st.tabs(["Symptom Checker", "Find Doctors", "Pharmacy Locator"])
 
-    # QA Input
-    st.header("Search Rwanda Health Info")
-    question = st.text_input("Ask about doctors or health centers")
+    # SYMPTOM CHECKER
+    with tabs[0]:
+        st.header("Describe Your Symptoms")
+        symptoms = st.text_area("What symptoms are you experiencing?")
+        if st.button("Get Diagnosis"):
+            diagnosis = get_diagnosis_from_symptoms(symptoms)
+            st.success(diagnosis)
 
-    if question:
-        try:
-            graph = get_neo4j_graph()
-            llm_model = get_llm_model()
+    #  FIND DOCTORS 
+    with tabs[1]:
+        st.header("Doctor & Health Center Search")
 
-            chain = get_graphqa_cypher_chain(llm_model=llm_model, graph=graph, prompt=SCHEMA_PROMPT)
+        if st.button("Upload Data to Neo4j"):
+            upload_healthcenters_to_neo4j()
+            upload_doctors_to_neo4j()
+            st.success("Data uploaded to Neo4j successfully!")
 
-            with st.spinner("Searching in graph..."):
-                result = chain(question)
+        question = st.text_input("Ask a question about doctors or health centers")
+        if question:
+            result = find_doctors_by_question(question)
+            st.success(result)
 
-            graph_answer = result["result"]
-            fallback_phrases = ["i don't know", "no data", "not found", "unable to answer", "couldn't find"]
-
-            if not graph_answer or any(p in graph_answer.lower() for p in fallback_phrases):
-                st.warning("No results found in the database. Searching the web...")
-                with st.spinner("Searching the web..."):
-                    web_result = search_web(question)
-                    st.markdown(f"**Web Answer:** {web_result.content}")
+    #  PHARMACY LOCATOR 
+    with tabs[2]:
+        st.header("Search for Medicine Near You")
+        medicine = st.text_input("Enter the medicine name")
+        if st.button("Find Pharmacies"):
+            results = find_pharmacies_with_medicine(medicine)
+            if results:
+                for item in results:
+                    st.markdown(f" {item['pharmacy_name']}, {item['location']} — Available: {item['available']}")
             else:
-                st.markdown(f"**Answer:** {graph_answer}")
-                st.code(result["intermediate_steps"], language="cypher")
-
-        except Exception as e:
-            st.error(f"{e}")
+                st.info("No pharmacy information available.")
