@@ -2,12 +2,12 @@ import pandas as pd
 
 # Load data
 def load_hc_data():
-    df_hc = pd.read_csv("data/Rwanda_healthcenter.csv")
+    df_hc = pd.read_csv("data/data/Rwanda_healthcenter.csv")
     
     return df_hc
 
 def load_doctor_data():
-    df_doctors = pd.read_csv("data/Kigali_Doctors.csv").rename(columns={
+    df_doctors = pd.read_csv("data/data/Kigali_Doctors.csv").rename(columns={
         "Name": "name",
         "Specialty": "specialty",
         "Hospital": "hospital",
