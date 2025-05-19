@@ -88,11 +88,11 @@ The logic is that the agent will:
 5. Present this information to user in the form specified in `ModelOutupt`
 """
 
-def find_ids_by_city(doctor_data, value):
+def find_ids_by_city(doctor_data, city):
   """
   Find the ids for all doctors in the given city
   """
-  return [d['id'] for d in doctor_data if d['city'] == value][0]
+  return [d['id'] for d in doctor_data if d['city'] == city][0]
 
 def find_doctor_by_id(doctor_data, id):
   """
