@@ -11,8 +11,6 @@ from db.neo4j_interface import upload_doctors_to_neo4j, upload_healthcenters_to_
 def run_app():
     st.set_page_config(page_title="HafiCare")
     st.title(" HafiCare Diagnostic Assistant")
-
-    # Define tabs
     tabs = st.tabs(["Symptom Checker", "Find Doctors", "Pharmacy Locator"])
 
     # SYMPTOM CHECKER
