@@ -9,8 +9,22 @@ def get_client():
     return client
 
 def get_llm_model():
-    llm_model = ChatOpenAI(temperature=0)
+    llm_model = ChatOpenAI(model="gpt-4o", temperature=0)
     return llm_model
+
+
+#embedding function
+
+def generate_embedding(text: str) -> list:
+    client = get_client()
+    response = client.embeddings.create(
+        model="text-embedding-3-large",
+        input=text
+    )
+    return response.data[0].embedding
+
+
+
 
 def search_web(query, location="RW", city="Kigali"):
     try:

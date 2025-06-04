@@ -1,9 +1,9 @@
 from neo4j import GraphDatabase
 from langchain_neo4j import Neo4jGraph
 import os
-
 from data.load_data import load_hc_data, load_doctor_data
 
+from llm.openai_model import generate_embedding  
 
 def get_neo4j_driver():
     # Get connection data from environment variables
@@ -93,3 +93,49 @@ def upload_doctors_to_neo4j():
                 }
             )
     driver.close()
+
+
+# Embedding functions
+
+def doctor_embeddings():
+
+    driver = get_neo4j_driver()
+    with driver.session() as session:
+        
+        result = session.run("""
+        MATCH (d:Doctor)
+        RETURN d.name AS name, d.description AS description
+        """)
+        records = result.data()
+
+        for record in records:
+            name = record["name"]
+            description = record["description"]
+            embedding = generate_embedding(description)
+            session.run("""
+            MATCH (d:Doctor {name: $name})
+            SET d.embedding = $embedding
+            """, {"name": name, "embedding": embedding})
+
+    driver.close()
+    print("Doctor embeddings updated successfully.")
+
+
+
+
+def create_doctor_vector_index():
+    driver = get_neo4j_driver()
+    with driver.session() as session:
+        session.run("""
+        CREATE VECTOR INDEX doctorEmbeddingIndex IF NOT EXISTS
+        FOR (d:Doctor)
+        ON d.embedding
+        OPTIONS {
+          indexConfig: {
+            `vector.dimensions`: 1536,
+            `vector.similarity_function`: 'cosine'
+          }
+        }
+        """)
+    driver.close()
+    print("Doctor vector index created successfully.")

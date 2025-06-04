@@ -5,7 +5,7 @@ Nodes:
 - Country: name
 - Province: name
 - Admin1: name
-- HealthCenter: name, latitude, longitude, ll_source
+- HealthCenter: name, latitude, longitude, ll_source, city
 - FacilityType: name
 - Ownership: name
 - Doctor: name, description
@@ -21,16 +21,14 @@ Relationships:
 - (Doctor)-[:WORKS_AT]->(HealthCenter)
 
 Important Notes:
-- For specialties, always match Doctor to Specialty using the HAS_SPECIALTY relationship.
-- Always use toLower() in WHERE clauses for case-insensitive matching of names, especially for Admin1 names, cities, and specialties.
+- Always connect Doctor to Specialty using the HAS_SPECIALTY relationship.
+- Always connect Doctor to HealthCenter using the WORKS_AT relationship.
+- Always connect HealthCenter to Admin1 using the LOCATED_IN relationship. Only connect Admin1 to Country via IN_COUNTRY if country-level filtering is needed.
+- Never chain Specialty directly to HealthCenter.
+- Use toLower() in WHERE clauses for case-insensitive matching of names, especially for Admin1 names, cities, countries, and specialties.
 - Use CONTAINS for partial matches to handle variations like 'Kigali City' vs 'Kigali'.
-Example: 
-MATCH (d:Doctor)-[:WORKS_AT]->(hc:HealthCenter)-[:LOCATED_IN]->(a:Admin1)
-WHERE toLower(a.name) CONTAINS toLower("Kigali")
-RETURN d.name
-
-- When returning results, always include doctor names, and add other properties if requested.
-- Keep Cypher queries simple: avoid chaining Specialty to HealthCenter unless explicitly asked.
+- When returning results, always include doctor names and add other properties if requested (e.g. specialty, health center name).
+- Keep Cypher queries simple and only chain nodes as described above unless the user explicitly requests otherwise.
 - If no location is provided in the question, do not add location filters.
 
 Examples:
@@ -44,4 +42,16 @@ Q: Doctors who are Radiologists
 A: MATCH (d:Doctor)-[:HAS_SPECIALTY]->(s:Specialty)
 WHERE toLower(s.name) CONTAINS toLower("radiologist")
 RETURN d.name
+
+Q: Doctors who are Radiologists in Kigali
+A: MATCH (d:Doctor)-[:HAS_SPECIALTY]->(s:Specialty)
+WHERE toLower(s.name) CONTAINS toLower("radiologist")
+MATCH (d)-[:WORKS_AT]->(h:HealthCenter)-[:LOCATED_IN]->(a:Admin1)
+WHERE a.name =~ '(?!)kigali'
+RETURN d.name, s.name AS specialty, h.name AS health_center
+
+Q: Doctors treating elderly in Kigali
+A: MATCH (d:Doctor)-[:WORKS_AT]->(h:HealthCenter)-[:LOCATED_IN]->(a:Admin1)
+WHERE toLower(d.description) CONTAINS "elderly" AND toLower(a.name) CONTAINS toLower("kigali")
+RETURN d.name, d.description, h.name AS health_center
 """
