@@ -18,7 +18,7 @@ def get_llm_model():
 def generate_embedding(text: str) -> list:
     client = get_client()
     response = client.embeddings.create(
-        model="text-embedding-3-large",
+        model="text-embedding-3-small",
         input=text
     )
     return response.data[0].embedding
