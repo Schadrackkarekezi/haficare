@@ -48,7 +48,7 @@ def answer_health_question(ctx: RunContext, question: str) -> str:
 #def find_doctor_by_city(ctx: RunContext, city: str) -> List[Dict]:
     #return get_doctors_by_city(city)
 
-
+ 
 
 @agent.tool
 def find_pharmacy_by_city(ctx: RunContext, city: str) -> List[Dict]:

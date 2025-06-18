@@ -9,13 +9,31 @@ from llm.openai_model import generate_embedding
 
 
 import streamlit as st
-from db.neo4j_interface import get_neo4j_driver
+from db.neo4j_interface import get_neo4j_driver, upload_doctors_to_neo4j, upload_pakistan_doctors_to_neo4j
 from llm.openai_model import generate_embedding
 
 st.set_page_config(page_title="HafiCare")
 
-doctor_embeddings()
-create_doctor_vector_index()
+st.title("Doctor Semantic Search")
+
+
+dataset_choice = st.selectbox(
+    "Select the dataset to test:",
+    ["Kigali Doctors", "Pakistan Doctors"]
+)
+
+if st.button("Load Dataset"):
+    st.info(f"Loading {dataset_choice} dataset into Neo4j...")
+    if dataset_choice == "Kigali Doctors":
+        upload_doctors_to_neo4j()
+    else:
+        upload_pakistan_doctors_to_neo4j()
+    
+    
+    doctor_embeddings()
+    create_doctor_vector_index()
+    
+    st.success("Dataset loaded and embeddings updated!")
 
 
 def vector_search_doctors(query: str, top_r: int = 5):

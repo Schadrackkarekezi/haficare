@@ -1,13 +1,11 @@
 from neo4j import GraphDatabase
 from langchain_neo4j import Neo4jGraph
 import os
-from data.load_data import load_hc_data, load_doctor_data
+from data.load_data import load_hc_data, load_doctor_data, load_pakistan_doctor_data
 
 from llm.openai_model import generate_embedding  
 
 def get_neo4j_driver():
-    # Get connection data from environment variables
-    # Default to empty string to avoid typing warnings in neo4j connection
     uri = os.getenv("NEO4J_URI", "")
     user = os.getenv("NEO4J_USER", "")
     password = os.getenv("NEO4J_PASSWORD", "")
@@ -93,6 +91,36 @@ def upload_doctors_to_neo4j():
                 }
             )
     driver.close()
+
+#Upload Pakistin 
+
+def upload_pakistan_doctors_to_neo4j():
+    df = load_pakistan_doctor_data()
+    
+    driver = get_neo4j_driver()
+    with driver.session() as session:
+
+        session.run("MATCH (d:Doctor) DETACH DELETE d")
+        
+        for _, row in df.iterrows():
+            session.run(
+                """
+                MERGE (d:Doctor {name: $name})
+                SET d.city = $city
+                SET d.description = $description
+                MERGE (s:Specialty {name: $specialty})
+                MERGE (d)-[:HAS_SPECIALTY]->(s)
+                """,
+                {
+                    "name": row["name"],
+                    "city": row["city"],
+                    "specialty": row["specialty"],
+                    "description": row["description"]
+                }
+            )
+    driver.close()
+
+
 
 
 # Embedding functions

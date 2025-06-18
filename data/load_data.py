@@ -21,3 +21,16 @@ def load_data():
     df_doctors = load_doctor_data()
     
     return df_hc, df_doctors
+
+
+def load_pakistan_doctor_data():
+    df_pakistan = pd.read_csv("data/data/Pakistan_Doctors.csv")
+    df_pakistan.columns = df_pakistan.columns.str.strip()
+    df_pakistan = df_pakistan.rename(columns={
+        "Name": "name",
+        "City": "city",
+        "Specialization": "specialty",
+        "Hospital": "hospital",
+        "description": "description"
+    })
+    return df_pakistan
