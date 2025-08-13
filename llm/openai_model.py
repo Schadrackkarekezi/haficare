@@ -1,11 +1,11 @@
 from openai import OpenAI
 from langchain_openai import ChatOpenAI
-
 import os
-
+from dotenv import load_dotenv
+load_dotenv()
 
 def get_client():
-    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY_2'))
     return client
 
 def get_llm_model():

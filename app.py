@@ -1,9 +1,12 @@
+
+
 import streamlit as st
 import asyncio
 from typing import List, Dict, Literal
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext
-from features.doctor_search import find_doctors_by_question 
+
+from features.doctor_search import find_doctors_by_question
 
 
 pharmacy_data = [
@@ -17,44 +20,46 @@ def get_pharmacies_by_city(city: str) -> List[Dict]:
     return [pharmacy for pharmacy in pharmacy_data if pharmacy["city"].lower() == city.lower()]
 
 
+
 class ChatOutput(BaseModel):
     response: str = Field(description="AI response to the user")
     target: Literal['doctor', 'pharmacy', 'symptoms', 'unknown'] = Field(
         default="unknown",
         description="User's goal from the conversation"
     )
+    question: str = Field(
+        default="",
+        description="The user's medical query, to be passed into the doctor search tool"
+    )
+
+
 
 agent = Agent(
     model="openai:gpt-4o-mini",
     output_type=ChatOutput,
     system_prompt=(
         "You are a helpful AI medical assistant for patients in Rwanda. "
-        "Your main job is to figure out what the user wants. "
-        "You must always include a target field: valid values are 'unknown', 'doctor', 'pharmacy', or 'symptoms'. "
-        "If you are not sure about the target, ask follow-up questions until you are sure. "
-        "Please do not assume; keep asking until the user's goal is clear. "
-        "If the user's target is 'doctor call the 'answer_health_question'"
-        "If the target is 'pharmacy', call the 'find_pharmacy_by_city' tool."
+        "Your job is to figure out what the user wants. Valid targets are: 'doctor', 'pharmacy', 'symptoms', or 'unknown'. "
+        "Always include the 'target' field. "
+        "If the target is 'doctor', include the user's question in the 'question' field and call the 'answer_health_question' tool immediately. "
+        "If the target is 'pharmacy', include 'city' and call the 'find_pharmacy_by_city' tool. "
+        "Only reply directly if no tool applies. If you're unsure of the user's intent, ask follow-up questions until you're certain."
     )
 )
 
-#Answer question realated to doctor
+
+#Doctor search tool
+
 @agent.tool
 def answer_health_question(ctx: RunContext, question: str) -> str:
     return find_doctors_by_question(question)
 
-#City-based doctor search
-#@agent.tool
-#def find_doctor_by_city(ctx: RunContext, city: str) -> List[Dict]:
-    #return get_doctors_by_city(city)
 
- 
-
+#Pharmacy tool
 @agent.tool
 def find_pharmacy_by_city(ctx: RunContext, city: str) -> List[Dict]:
     return get_pharmacies_by_city(city)
 
-# Streamlit UI
 
 st.title("HafiCare")
 
@@ -82,5 +87,6 @@ if user_input:
     st.session_state.message_history.append({"role": "assistant", "content": result.output.response})
     st.session_state.last_messages = result.all_messages()
 
-
-    st.markdown(f"**Target:** {result.output.target}")
+    st.markdown(f"**Target:** `{result.output.target}`")
+    if result.output.target == "doctor":
+        st.markdown(f"**Doctor Search Input:** `{result.output.question}`")

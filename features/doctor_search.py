@@ -1,19 +1,49 @@
+from db.neo4j_interface import get_neo4j_driver
+from llm.openai_model import generate_embedding
 
-from db.neo4j_interface import get_neo4j_graph
-from llm.graph import get_graphqa_cypher_chain
-from llm.prompts import SCHEMA_PROMPT
-from llm.openai_model import get_llm_model
+def vector_search_doctors(query: str, top_r: int = 2):
+    vec = generate_embedding(query)
+    driver = get_neo4j_driver()
+    with driver.session() as session:
+        results = session.run(
+            """
+            WITH $vec AS q
+            CALL db.index.vector.queryNodes(
+              "doctorEmbeddingIndex",
+              $k,
+              q
+            )
+            YIELD node, score
+            RETURN
+              node.name AS name,
+              node.specialty AS specialty,
+              node.location AS location,
+              score
+            ORDER BY score DESC
+            """,
+            {"vec": vec, "k": top_r}
+        )
+        doctors = [
+            {
+                "name": r["name"],
+                "specialty": r["specialty"],
+                "score": r["score"],
+            }
+            for r in results
+        ]
+    driver.close()
+    return doctors
 
-def find_doctors_by_question(question: str) -> str:
-# finding the doctor from neo4j 
+
+def find_doctors_by_question(query: str) -> str:
     try:
-        graph = get_neo4j_graph()
-        llm = get_llm_model()
-        chain = get_graphqa_cypher_chain(llm_model=llm, graph=graph, prompt=SCHEMA_PROMPT)
-        result = chain(question)
-        return result.get("result", "No result found.")
+        matches = vector_search_doctors(query)
+        if not matches:
+            return "Sorry, I couldn't find any doctors matching your request."
+
+        result = "**Here are some doctors I found:**\n"
+        for i, doc in enumerate(matches, 1):
+            result += f"{i}. **{doc['name']}** — *{doc['specialty']}* (Score: {doc['score']:.2f})\n"
+        return result
     except Exception as e:
         return f"Error during doctor search: {e}"
-
-
-
