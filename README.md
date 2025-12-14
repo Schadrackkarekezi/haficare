@@ -17,8 +17,7 @@ HafiCare is an AI-powered health assistant that helps users find doctors, analyz
 ## Tech Stack
 
 - **Python**
-- **FastAPI** (or similar web framework)
-- **Pydantic** for data validation  
+- **Pydantic** 
 - **Neo4j / Graph DB** (planned integration)  
 - **LLM/AI components** for symptom analysis and suggestions  
 
