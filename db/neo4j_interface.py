@@ -1,32 +1,19 @@
 from neo4j import GraphDatabase
-from langchain_neo4j import Neo4jGraph
 import os
 from data.load_data import load_hc_data, load_doctor_data, load_pakistan_doctor_data
 
-from llm.openai_model import generate_embedding  
+from llm.openai_model import generate_embedding
 
 def get_neo4j_driver():
     uri = os.getenv("NEO4J_URI", "")
     user = os.getenv("NEO4J_USER", "")
     password = os.getenv("NEO4J_PASSWORD", "")
-    
+
     try:
         driver = GraphDatabase.driver(uri, auth=(user, password))
     except Exception as e:
         raise Exception(f"Failed to connect to Neo4j: {e}")
     return driver
-
-
-def get_neo4j_graph():
-    uri = os.getenv("NEO4J_URI", "")
-    user = os.getenv("NEO4J_USER", "")
-    password = os.getenv("NEO4J_PASSWORD", "")
-    
-    try:
-        graph = Neo4jGraph(url=uri, username=user, password=password)
-    except Exception as e:
-        raise Exception(f"Failed to connect to Neo4j: {e}")
-    return graph
 
 
 def upload_healthcenters_to_neo4j():
