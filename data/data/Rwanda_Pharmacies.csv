@@ -1,0 +1,21 @@
+name,city,address,phone,services
+City Pharmacy,Kigali,"KN 4 Ave, Nyarugenge",+250 788 100 001,prescription;vaccination;delivery
+Kigali Central Pharmacy,Kigali,"KG 7 Ave, Kacyiru",+250 788 100 002,prescription;otc;delivery
+Remera Pharmacy,Kigali,"KG 11 Ave, Remera",+250 788 100 003,prescription;otc
+Kimironko Pharmacy,Kigali,"KG 15 Ave, Kimironko",+250 788 100 004,prescription;vaccination
+Nyamirambo Pharmacy,Kigali,"KN 22 St, Nyamirambo",+250 788 100 005,prescription;otc;delivery
+Butare Meds,Huye,"NR1, Huye Town",+250 788 100 006,prescription;otc
+Huye Health Hub,Huye,"NR1, Tumba",+250 788 100 007,prescription;vaccination;delivery
+Gisenyi Drugs,Rubavu,"Lake Kivu Rd, Gisenyi",+250 788 100 008,prescription;otc
+Rubavu Central Pharmacy,Rubavu,"RN2, Rubavu Town",+250 788 100 009,prescription;delivery
+Musanze Pharmacy,Musanze,"RN4, Musanze Town",+250 788 100 010,prescription;otc;vaccination
+Ruhengeri Meds,Musanze,"RN4, Ruhengeri",+250 788 100 011,prescription;otc
+Nyagatare Pharmacy,Nyagatare,"RN3, Nyagatare Town",+250 788 100 012,prescription;otc
+Rwamagana Pharmacy,Rwamagana,"RN3, Rwamagana Town",+250 788 100 013,prescription;delivery
+Kayonza Meds,Kayonza,"RN3, Kayonza Town",+250 788 100 014,prescription;otc
+Muhanga Pharmacy,Muhanga,"RN1, Muhanga Town",+250 788 100 015,prescription;otc;vaccination
+Karongi Health Pharmacy,Karongi,"Lake Kivu Rd, Karongi Town",+250 788 100 016,prescription;otc
+Nyanza Pharmacy,Nyanza,"NR7, Nyanza Town",+250 788 100 017,prescription;delivery
+Huye University Pharmacy,Huye,"NR1, University Ave",+250 788 100 018,prescription;otc;vaccination
+Gicumbi Pharmacy,Gicumbi,"RN2, Gicumbi Town",+250 788 100 019,prescription;otc
+Rusizi Border Pharmacy,Rusizi,"RN9, Kamembe",+250 788 100 020,prescription;otc;delivery

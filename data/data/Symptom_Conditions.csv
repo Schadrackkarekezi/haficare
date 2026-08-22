@@ -1,0 +1,40 @@
+symptom_summary,possible_condition,advice,urgency
+"fever, cough, fatigue, body aches",Common cold or flu,"Rest, fluids, and over-the-counter fever reducers. See a doctor if fever exceeds 39C or lasts more than 3 days.",low
+"runny nose, sneezing, itchy eyes, no fever",Seasonal allergies,"Antihistamines usually help. See a doctor if symptoms persist beyond a couple of weeks.",low
+"sore throat, difficulty swallowing, swollen glands",Strep throat or pharyngitis,"A doctor can test for strep with a throat swab; antibiotics may be needed if positive.",medium
+"persistent cough over 3 weeks, night sweats, weight loss",Possible tuberculosis or chronic respiratory infection,"See a doctor promptly for chest imaging and further testing.",medium
+"shortness of breath, chest tightness, wheezing",Asthma or reactive airway,"See a doctor for evaluation; seek emergency care if breathing is severely labored.",medium
+"sudden chest pain, pain radiating to arm or jaw, sweating",Possible heart attack,"This can be a medical emergency. Seek emergency care immediately.",emergency
+"headache, sensitivity to light, stiff neck, fever",Possible meningitis,"This can be a medical emergency. Seek emergency care immediately.",emergency
+"mild headache, tiredness, stress",Tension headache,"Rest, hydration, and over-the-counter pain relief usually help. See a doctor if headaches become frequent or severe.",low
+"one-sided throbbing headache, nausea, light sensitivity",Migraine,"See a doctor for management options if migraines are frequent or severe.",medium
+"dizziness, lightheadedness when standing",Possible low blood pressure or dehydration,"Increase fluids and stand up slowly. See a doctor if it happens often.",low
+"abdominal pain, nausea, vomiting, loss of appetite",Gastritis or stomach upset,"Bland diet and rest often help. See a doctor if pain is severe or persistent.",low
+"severe abdominal pain, lower right side, fever",Possible appendicitis,"This can be a medical emergency. Seek emergency care immediately.",emergency
+"diarrhea, stomach cramps, mild fever",Gastroenteritis (stomach flu),"Stay hydrated with oral rehydration solutions. See a doctor if symptoms last more than 2 days or you notice blood.",low
+"heartburn, burning sensation in chest after eating",Acid reflux (GERD),"Avoid trigger foods and consider antacids. See a doctor if symptoms are frequent.",low
+"joint pain, swelling, stiffness in the morning",Possible arthritis,"See a doctor for evaluation and imaging if symptoms persist.",medium
+"muscle aches, cramping after exercise",Muscle strain or dehydration,"Rest, stretch, and hydrate. See a doctor if pain doesn't improve in a few days.",low
+"back pain after lifting, worse with movement",Muscle strain,"Rest and gentle movement usually help. See a doctor if pain radiates down a leg or doesn't improve.",low
+"lower back pain, pain radiating down leg, numbness",Possible sciatica,"See a doctor for evaluation, especially if numbness or weakness is present.",medium
+"burning sensation when urinating, frequent urination",Possible urinary tract infection,"See a doctor; UTIs are usually easily treated with antibiotics.",medium
+"increased thirst, frequent urination, fatigue, blurred vision",Possible diabetes symptoms,"See a doctor for blood sugar testing.",medium
+"skin rash, itching, redness",Contact dermatitis or allergic reaction,"Avoid the irritant and consider antihistamines. See a doctor if the rash spreads or doesn't improve.",low
+"hives, swelling of lips or face, difficulty breathing",Possible severe allergic reaction (anaphylaxis),"This can be a medical emergency. Seek emergency care immediately.",emergency
+"persistent acne, oily skin",Common acne,"Over-the-counter treatments often help. See a dermatologist if it doesn't improve.",low
+"ear pain, reduced hearing, fluid draining from ear",Possible ear infection,"See a doctor for evaluation; may need antibiotics.",medium
+"red, itchy, watery eyes with discharge",Possible conjunctivitis (pink eye),"See a doctor; can be contagious. Avoid touching or sharing towels.",low
+"toothache, swelling of gums, sensitivity to hot or cold",Possible dental infection,"See a dentist promptly; untreated dental infections can worsen.",medium
+"anxiety, racing heart, trouble sleeping, restlessness",Possible anxiety-related symptoms,"Consider speaking with a doctor or mental health professional.",low
+"persistent sadness, loss of interest, low energy for weeks",Possible depression symptoms,"Consider speaking with a doctor or mental health professional.",medium
+"difficulty sleeping, waking up frequently at night",Insomnia,"Improve sleep habits and reduce screen time before bed. See a doctor if it persists.",low
+"swelling in legs or ankles, shortness of breath",Possible fluid retention or heart-related issue,"See a doctor promptly for evaluation.",medium
+"numbness or weakness on one side of the body, slurred speech",Possible stroke,"This can be a medical emergency. Seek emergency care immediately.",emergency
+"nosebleed, easy bruising, unusual bleeding",Possible bleeding or clotting disorder,"See a doctor if bleeding is frequent, heavy, or unexplained.",medium
+"loss of smell or taste, mild cough, fatigue",Possible viral respiratory infection,"Rest and monitor symptoms. See a doctor if breathing becomes difficult.",low
+"vomiting blood or black stools",Possible gastrointestinal bleeding,"This can be a medical emergency. Seek emergency care immediately.",emergency
+"persistent fatigue, pale skin, shortness of breath on exertion",Possible anemia,"See a doctor for blood testing.",medium
+"weight loss without trying, persistent fatigue",Possible underlying chronic condition,"See a doctor for evaluation and testing.",medium
+"cold hands and feet, fatigue, weight gain",Possible thyroid issue,"See a doctor for thyroid function testing.",low
+"nausea, vomiting, high fever, confusion",Possible severe infection,"This can be a medical emergency. Seek emergency care immediately.",emergency
+"mild fever, body rash, joint pain after travel","Possible mosquito-borne illness (e.g. malaria, dengue)","See a doctor promptly, especially if you've recently traveled to an affected area.",medium

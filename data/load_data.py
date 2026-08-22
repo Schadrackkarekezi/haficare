@@ -34,3 +34,15 @@ def load_pakistan_doctor_data():
         "description": "description"
     })
     return df_pakistan
+
+
+def load_pharmacy_data():
+    df_pharmacies = pd.read_csv("data/data/Rwanda_Pharmacies.csv")
+
+    return df_pharmacies
+
+
+def load_symptom_condition_data():
+    df_conditions = pd.read_csv("data/data/Symptom_Conditions.csv")
+
+    return df_conditions

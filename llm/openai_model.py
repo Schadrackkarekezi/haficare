@@ -9,7 +9,7 @@ def get_client():
     return client
 
 def get_llm_model():
-    llm_model = ChatOpenAI(model="gpt-4o", temperature=0)
+    llm_model = ChatOpenAI(model="gpt-4o", temperature=0, api_key=os.getenv('OPENAI_API_KEY_2'))
     return llm_model
 
 
